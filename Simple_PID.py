@@ -7,8 +7,11 @@ class Simple_PID():
         self.Kd = Kd 
         self.P = P
         
-    def update_PID(self, ek, ek_1, ek_2, dt):
-        self.P = self.P + self.Kc*((ek-ek_1) + dt/self.Ki*ek + self.Kd/dt*(ek - 2*ek_1 + ek_2))
-        
+    def update_PID(self, ek, ek1, ek2, dt):
+
+        self.P = self.P + self.Kc*((ek-ek1) + dt/self.Ki*ek + \
+                self.Kd/dt*(ek - 2*ek1 + ek2))
+
     def get_PID(self):
+
         return self.P

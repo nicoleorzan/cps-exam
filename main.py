@@ -5,36 +5,44 @@ from numpy.random import normal
 import BatchReactor as Reactor
 import Simple_PID
 
+
+def plotter(name, times, plot_vals1, plot_vals2, label1, label2, ylab, xlab = 'time'):
+    plt.figure(figsize=(10, 7))
+    plt.plot(times, plot_vals1, label = label1)
+    plt.plot(times, plot_vals2, label = label2)
+    plt.xlabel(xlab, fontsize=18)
+    plt.ylabel(ylab, fontsize=18)
+    plt.xticks(fontsize=17)
+    plt.yticks(fontsize=17)
+    plt.legend(fontsize=18)
+    plt.grid()
+    plt.savefig(name+".png")
+
 points = [0, 30, 50, 100, 140, 160, 200, 240, 300]
 signal = [25, 30, 62, 85, 85, 77, 77, 85, 85]
 f_signal = interp1d(points, signal)
 
 points1 = [0, 20, 300]
 signal1 = [25, 95, 95]
-f_signal1 = interp1d(points1, signal1)
+constant_signal = interp1d(points1, signal1)
 
 mmax = 299
 interval = 0.5
 
 def loop(signal_function, mmax = mmax, interval = interval):
+    TR = [];    TJ = [];    TJSP = [];    
+    QJ = [];    QR = [];    
+    MA = [];    MB = [];    MC = [];    MD = [];    
+    Set_point = [];    Controlled_var = []
+
     ek = 0
     ek_1 = 0
     ek_2 = 0
     Tjsp = 20
-    TR = []
-    TJ = []
-    TJSP = []
-    QJ = []
-    QR = []
-    Set_point = []
-    Controlled_var = []
-
     R = Reactor.Reactor()
     (Tr, Tj) = R.get_T()
     M = R.get_M()
     PID = Simple_PID.Simple_PID()
-    data = []
-    signal_data = []
 
     for i, k in enumerate(np.arange(1, mmax, interval)):
         
@@ -42,23 +50,24 @@ def loop(signal_function, mmax = mmax, interval = interval):
         (Tr, Tj) = R.get_T()
         (Qr, Qj) = R.get_Q()
         M = R.get_M()
-        
+        MA.append(M[0])
+        MB.append(M[1])
+        MC.append(M[2])
+        MD.append(M[3])
         QJ.append(Qj)
         QR.append(Qr)
         TR.append(Tr)
         #Tj = Tj + normal(0,1)*np.sqrt(0.04)
         TJ.append(Tj)
-        
-        setPoint = signal_function(k+1) # o k?????????????????????
-        Set_point.append(setPoint)
-        
         Controlled_var.append(Tjsp)
         
-        data.append((i,Tr))
-        signal_data.append((i,setPoint))
-        ek = setPoint - Tr
+        setpoint = signal_function(k) # k+1?
+        Set_point.append(setpoint)
         
+        ek = setpoint - Tr
+
         PID.update_PID(ek, ek_1, ek_2, dt = interval)
+        #PID.update_PID(setpoint, Tr, dt = interval)
         Tjsp = PID.get_PID()
         Tjsp = Tjsp + normal(0,1)*np.sqrt(0.04)
         
@@ -73,25 +82,27 @@ def loop(signal_function, mmax = mmax, interval = interval):
 
         ek_2 = ek_1
         ek_1 = ek
+    
 
     MAE = sum([abs(x - y) for x, y in zip(Set_point, Controlled_var)])/mmax
 
-    return (TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var)
+    return (TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD)
 
 
 
-TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var =  loop(f_signal)
-TJ1, TR1, QJ1, QR1, TJSP1, Set_point1, Controlled_var1 =  loop(f_signal1)
+TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD =  loop(constant_signal)
+#TJ1, TR1, QJ1, QR1, TJSP1, Set_point1, Controlled_var1, MA1, MB1, MC1, MD1 =  loop(f_signal)
 
+plotter("reactor_temperature", np.arange(1,mmax,interval), TR, \
+        constant_signal(np.arange(1,mmax,interval)), "Reactor temperature", \
+        "Set Point", "Temperature", xlab = 'time')
 
-plt.figure(figsize=(8, 5))
-plt.plot(np.arange(1,mmax,interval), TR)
-plt.plot(np.arange(1,mmax,interval), f_signal(np.arange(1,mmax,interval)))
-plt.grid()
-plt.savefig("reactor_temperature.png")
+"""plotter("reactor_temperature1", np.arange(1,mmax,interval), TR1, \
+        f_signal1(np.arange(1,mmax,interval)), "Reactor temperature", \
+        "Set Point", "Temperature", xlab = 'time')
 
-plt.figure(figsize=(8, 5))
-plt.plot(np.arange(1,mmax,interval), TR1)
-plt.plot(np.arange(1,mmax,interval), f_signal1(np.arange(1,mmax,interval)))
-plt.grid()
-plt.savefig("reactor_temperature1.png")
+plotter("MA_MB moles", np.arange(1,mmax,interval), MA, MB, \
+        "MA", "MB", ylab = "kmol", xlab = 'time')
+
+plotter("MC_MD moles", np.arange(1,mmax,interval), MC, MD, \
+        "MA", "MB", ylab = "kmol", xlab = 'time')"""
