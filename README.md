@@ -1,3 +1,8 @@
 ### Cyber-Physical Systems exam Repository
 
-![Reator Temperature signal and output]["reactor_temperature.png"]
+<figure>
+  <img src="reactor_temperature.png" width=300px>
+  <figcaption>
+      Reactor temperature signal and output
+  </figcaption>
+</figure>
