@@ -36,6 +36,7 @@ class Reactor():
         self.Mb = 12
         self.Mc = 0
         self.Md = 0
+        
         self.Tr = 20
         self.Tj = 20
 
