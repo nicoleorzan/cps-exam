@@ -10,7 +10,7 @@ interval = 0.5
 min_val = 20
 max_val = 160
 
-# 1) Check if signal is contained into defined limits
+# 1) == Check if signal is contained into defined limits == 
 print("Requirement: G( Tr(t) > 20 & Tr(t) < 160 )")
 
 phi1 = [(i,t-min_val) for i,t in zip(np.arange(1,mmax,interval), TR)]
@@ -29,7 +29,8 @@ print("robustness = ", robustness)
 print("beta = ",beta, "\n")
 
 
-# 2) check if signal oscillations are contained
+# 2) == Check if signal oscillations are contained == 
+
 print("Requirement: F[1,100] (G(|Tr(t) - constant_signal| < 0.5))")
 
 signal = 95

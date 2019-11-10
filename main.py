@@ -1,22 +1,10 @@
 from scipy.interpolate import interp1d
 import numpy as np
+import pickle
 import matplotlib.pyplot as plt
 from numpy.random import normal
 import BatchReactor as Reactor
 import Simple_PID
-
-
-def plotter(name, times, plot_vals1, plot_vals2, label1, label2, ylab, xlab = 'time', colors = ['#1f77b4', '#ff7f0e']):
-    plt.figure(figsize=(10, 7))
-    plt.plot(times, plot_vals1, label = label1, color = colors[0])
-    plt.plot(times, plot_vals2, label = label2, color = colors[1])
-    plt.xlabel(xlab, fontsize=18)
-    plt.ylabel(ylab, fontsize=18)
-    plt.xticks(fontsize=17)
-    plt.yticks(fontsize=17)
-    plt.legend(fontsize=18)
-    plt.grid()
-    plt.savefig(name+".png", bbox_inches='tight')
 
 points = [0, 30, 50, 100, 140, 160, 200, 240, 300]
 signal = [25, 30, 62, 85, 85, 77, 77, 85, 85]
@@ -95,7 +83,28 @@ def loop(signal_function, mmax = mmax, interval = interval):
 TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD =  loop(constant_signal)
 TJ1, TR1, QJ1, QR1, TJSP1, Set_point1, Controlled_var1, MA1, MB1, MC1, MD1 =  loop(f_signal)
 
-plotter("reactor_temperature1", np.arange(1,mmax,interval), TR, \
+
+with open("TR.txt", "wb") as fp:   
+    pickle.dump(TR, fp)
+
+with open("TR1.txt", "wb") as fp:   
+    pickle.dump(TR1, fp)
+
+def plotter(name, times, plot_vals1, plot_vals2, label1, label2, ylab, xlab = 'time', colors = ['#1f77b4', '#ff7f0e']):
+    plt.figure(figsize=(10, 7))
+    plt.plot(times, plot_vals1, label = label1, color = colors[0])
+    plt.plot(times, plot_vals2, label = label2, color = colors[1])
+    plt.xlabel(xlab, fontsize=18)
+    plt.ylabel(ylab, fontsize=18)
+    plt.xticks(fontsize=17)
+    plt.yticks(fontsize=17)
+    plt.legend(fontsize=18)
+    plt.grid()
+    plt.savefig(name+".png", bbox_inches='tight')
+
+# PLOTTING STUFF
+
+"""plotter("reactor_temperature1", np.arange(1,mmax,interval), TR, \
         constant_signal(np.arange(1,mmax,interval)), "Reactor temperature", \
         "Set Point", "Temperature", xlab = 'time')
 
@@ -108,4 +117,4 @@ plotter("MA_MB_moles1", np.arange(1,mmax,interval), MA1, MB1, \
 
 plotter("MC_MD_moles1", np.arange(1,mmax,interval), MC1, MD1, \
         "MC", "MD", ylab = "kmol", xlab = 'time', colors = ['green', 'orange'])
-
+"""
