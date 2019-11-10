@@ -2,7 +2,7 @@ import numpy as np
 
 class Reactor():
     
-    def __init__(self):
+    def __init__(self, Tr0=20):
         # CONSTANTS
 
         self.MWa = 30
@@ -37,7 +37,7 @@ class Reactor():
         self.Mc = 0
         self.Md = 0
         
-        self.Tr = 20
+        self.Tr = Tr0
         self.Tj = 20
 
         self.M = [self.Ma, self.Mb, self.Mc, self.Md]

@@ -1,18 +1,11 @@
-from scipy.interpolate import interp1d
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 from numpy.random import normal
 import BatchReactor as Reactor
 import Simple_PID
+import signals
 
-points = [0, 30, 50, 100, 140, 160, 200, 240, 300]
-signal = [25, 30, 62, 85, 85, 77, 77, 85, 85]
-f_signal = interp1d(points, signal)
-
-points1 = [0, 20, 300]
-signal1 = [25, 95, 95]
-constant_signal = interp1d(points1, signal1)
 
 mmax = 299
 interval = 0.5
@@ -80,9 +73,10 @@ def loop(signal_function, mmax = mmax, interval = interval):
 
 
 
-TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD =  loop(constant_signal)
-TJ1, TR1, QJ1, QR1, TJSP1, Set_point1, Controlled_var1, MA1, MB1, MC1, MD1 =  loop(f_signal)
+TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD =  loop(signals.constant_signal)
+TJ1, TR1, QJ1, QR1, TJSP1, Set_point1, Controlled_var1, MA1, MB1, MC1, MD1 =  loop(signals.f_signal)
 
+# Saving reactor temperature data
 
 with open("TR.txt", "wb") as fp:   
     pickle.dump(TR, fp)
@@ -105,11 +99,11 @@ def plotter(name, times, plot_vals1, plot_vals2, label1, label2, ylab, xlab = 't
 # PLOTTING STUFF
 
 """plotter("reactor_temperature1", np.arange(1,mmax,interval), TR, \
-        constant_signal(np.arange(1,mmax,interval)), "Reactor temperature", \
+        signals.constant_signal(np.arange(1,mmax,interval)), "Reactor temperature", \
         "Set Point", "Temperature", xlab = 'time')
 
 plotter("reactor_temperature", np.arange(1,mmax,interval), TR1, \
-        f_signal(np.arange(1,mmax,interval)), "Reactor temperature", \
+        signals.f_signal(np.arange(1,mmax,interval)), "Reactor temperature", \
         "Set Point", "Temperature", xlab = 'time')
 
 plotter("MA_MB_moles1", np.arange(1,mmax,interval), MA1, MB1, \
