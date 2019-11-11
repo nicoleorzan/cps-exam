@@ -2,7 +2,7 @@ import numpy as np
 
 class Reactor():
     
-    def __init__(self, noise=None):
+    def __init__(self, T0=20, noise=None):
         # CONSTANTS
 
         self.MWa = 30
@@ -39,7 +39,7 @@ class Reactor():
             self.Md = 0
             
             self.Tr = 20 + np.random.normal(0,1)*np.sqrt(noise)
-            self.Tj = 20 + np.random.normal(0,1)*np.sqrt(noise)
+            self.Tj = T0 + np.random.normal(0,1)*np.sqrt(noise)
 
         else:
             self.Ma = 12
@@ -74,7 +74,9 @@ class Reactor():
 
         self.Qj = self.U*self.A*(Tj - Tr)
         self.Qr = -self.DH1*(k1*self.M[0]*self.M[1]) - self.DH2*(k2*self.M[0]*self.M[2]) #Qr = -DH1*R[0] - DH2*R[1]
-
+        
+        if (self.Qr > 6.e+83):
+            self.Qr = 6.e+6
         dTr = (self.Qr+self.Qj)/(Mr*Crhor)
         dTj = (self.Fj*self.rhoj*self.Crhoj*(Tjsp-Tj)-self.Qj)/(self.Vj*self.rhoj*self.Crhoj)
 

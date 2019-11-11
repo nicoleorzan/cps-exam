@@ -12,7 +12,7 @@ def loop(signal_function, noise = None, mmax = 299, interval = 0.5):
     ek_1 = 0
     ek_2 = 0
     Tjsp = 20
-    R = Reactor.Reactor(noise)
+    R = Reactor.Reactor(T0 = 20, noise=noise)
     (Tr, Tj) = R.get_T()
     M = R.get_M()
     PID = Simple_PID.Simple_PID()
