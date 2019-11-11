@@ -1,10 +1,18 @@
 ### Cyber-Physical Systems exam Repository
 
-Studying the behavior of a Chemical Batch Reactor.
 
-In these files you can find:
+In this repository you can find the analysis of the temperature variation for a Chemical Batch Reactor.
 
-* !mplementation of a PID controller<sup>1</sup>
+* the class BatchReactor contains the variables and the dynamics of the Reactor
+* the class Simple_PID contains a simple implementation of a PID controller (you don't say?)
+* the class PID_Loop contains the application of the PID to the Reactor
+* main.py launches the PID
+* The file STL contains the xpression and evaluation of Signal Temporal Logic requirements<sup><2/sup> over the reactor temperature variable
+* The file trace_statistics contains the Falsification of requirementd over a sample of trajectories with noise
+* The class ReinforcementLearning contains the definition of variables and the selection of related actions
+* main_rl launches a Reinforcement Learning code with SARSA evaluation policy to follow the constant signal
+
+Some Results:
 
 <figure>
   <img src="Images/reactor_temperature.png" width=500px>
@@ -12,12 +20,6 @@ In these files you can find:
       Reactor temperature following a varying signal
   </figcaption>
 </figure>
-
-* Expression and evaluation of Signal Temporal Logic requirements<sup><2/sup> over the reactor temperature variable
-
-* Control the of the system with Reinforcement Learning - SARSA evaluation policy to follow a constant signal
-
-Result:
 
 <figure>
   <img src="Images/rl_output.png" width=500px>
