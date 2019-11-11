@@ -6,13 +6,12 @@ class ReinforcementLearning():
     def __init__(self, n_actions=3):
         #tjsp va da 20 a 120
         #tr va da 20 a 140?
-        #self.n_tjsp = n_tjsp
         self.Tjsp_values = [20, 25, 26, 30, 35, 40, 45, 50, 52, 57, 60, 65, 70, 72, 80, 90, 94, 96, 100, 120] # [20, 30, 40, 50, 60, 90, 96, 100, 120]
         self.n_tjsp = len(self.Tjsp_values)
         self.Tr_values = [20, 30, 90, 100, 140] #[20, 30, 50, 60, 90, 100, 120, 140]
         self.n_tr = len(self.Tr_values)
         self.n_actions = n_actions
-        self.Q = np.random.rand(self.n_tjsp,self.n_tr) #*0.0001 # np.zeros((n_tjsp, n_tr))
+        self.Q = np.random.rand(self.n_tjsp,self.n_tr)
 
     def state(self, Tjsp, Tr):
         self.s_tjsp = Tjsp
