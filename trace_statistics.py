@@ -6,7 +6,7 @@ import PID_Loop
 import mtl
 
 num_trajectories = 50
-noise = 0.03
+noise = 3
 TR = {}
 for i in range(num_trajectories):
     TR[i] = PID_Loop.loop(signals.constant_signal, noise=noise)
