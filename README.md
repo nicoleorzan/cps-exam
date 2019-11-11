@@ -4,10 +4,10 @@
 In this repository you can find the analysis of the temperature variation for a Chemical Batch Reactor.
 
 * the class BatchReactor contains the variables and the dynamics of the Reactor
-* the class Simple_PID contains a simple implementation of a PID controller (you don't say?)
+* the class Simple_PID contains a simple implementation of a PID controller (you don't say?)<sup>1</sup>
 * the class PID_Loop contains the application of the PID to the Reactor
 * main.py launches the PID
-* The file STL contains the xpression and evaluation of Signal Temporal Logic requirements<sup><2/sup> over the reactor temperature variable
+* The file STL contains the xpression and evaluation of Signal Temporal Logic requirements over the reactor temperature variable<sup>2</sup>
 * The file trace_statistics contains the Falsification of requirementd over a sample of trajectories with noise
 * The class ReinforcementLearning contains the definition of variables and the selection of related actions
 * main_rl launches a Reinforcement Learning code with SARSA evaluation policy to follow the constant signal
