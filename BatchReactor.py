@@ -2,7 +2,7 @@ import numpy as np
 
 class Reactor():
     
-    def __init__(self, Tr0=20):
+    def __init__(self, noise=None):
         # CONSTANTS
 
         self.MWa = 30
@@ -32,13 +32,23 @@ class Reactor():
         self.A = 6.24
 
         #initial conditions
-        self.Ma = 12
-        self.Mb = 12
-        self.Mc = 0
-        self.Md = 0
-        
-        self.Tr = Tr0
-        self.Tj = 20
+        if (noise != None):
+            self.Ma = 12 + np.random.normal(0,1)*np.sqrt(noise)
+            self.Mb = 12 + np.random.normal(0,1)*np.sqrt(noise)
+            self.Mc = 0
+            self.Md = 0
+            
+            self.Tr = 20 + np.random.normal(0,1)*np.sqrt(noise)
+            self.Tj = 20 + np.random.normal(0,1)*np.sqrt(noise)
+
+        else:
+            self.Ma = 12
+            self.Mb = 12
+            self.Mc = 0
+            self.Md = 0
+            
+            self.Tr = 20
+            self.Tj = 20
 
         self.M = [self.Ma, self.Mb, self.Mc, self.Md]
         

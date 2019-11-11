@@ -19,7 +19,6 @@ max_val = 160
 times = np.arange(1,mmax,interval)
 
 
-
 # ==================================   REQUIREMENT 1   =========================================
 # ==============  Check if signal is contained into defined limits: CONSTANT SIGNAL ============ 
 

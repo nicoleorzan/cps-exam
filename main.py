@@ -1,87 +1,18 @@
-import numpy as np
 import pickle
 import matplotlib.pyplot as plt
-from numpy.random import normal
-import BatchReactor as Reactor
-import Simple_PID
 import signals
+import PID_Loop
 
 
-mmax = 299
-interval = 0.5
-
-def loop(signal_function, mmax = mmax, interval = interval):
-    
-    TR = [];    TJ = [];    TJSP = []   
-    QJ = [];    QR = []
-    MA = [];    MB = [];    MC = [];    MD = []
-    Set_point = [];    Controlled_var = []
-
-    # variables initialization
-    ek = 0
-    ek_1 = 0
-    ek_2 = 0
-    Tjsp = 20
-    R = Reactor.Reactor()
-    (Tr, Tj) = R.get_T()
-    M = R.get_M()
-    PID = Simple_PID.Simple_PID()
-
-    for _, k in enumerate(np.arange(1, mmax, interval)):
-        
-        R.dynamics(Tr, Tj, Tjsp, M, interval)
-        (Tr, Tj) = R.get_T()
-        (Qr, Qj) = R.get_Q()
-        M = R.get_M()
-        MA.append(M[0])
-        MB.append(M[1])
-        MC.append(M[2])
-        MD.append(M[3])
-        QJ.append(Qj)
-        QR.append(Qr)
-        TR.append(Tr)
-        #Tj = Tj + normal(0,1)*np.sqrt(0.04)
-        TJ.append(Tj)
-        Controlled_var.append(Tjsp)
-        
-        setpoint = signal_function(k) # k+1?
-        Set_point.append(setpoint)
-        
-        ek = setpoint - Tr
-
-        PID.update_PID(ek, ek_1, ek_2, dt = interval)
-        #PID.update_PID(setpoint, Tr, dt = interval)
-        Tjsp = PID.get_PID()
-        Tjsp = Tjsp + normal(0,1)*np.sqrt(0.04)
-        
-        if (Tjsp > 120):
-            Tjsp = 120
-        elif (Tjsp < 20):
-            Tjsp = 20
-            
-        TJSP.append(Tjsp)
-
-        # update errors
-
-        ek_2 = ek_1
-        ek_1 = ek
-    
-
-    MAE = sum([abs(x - y) for x, y in zip(Set_point, Controlled_var)])/mmax
-
-    return (TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD)
-
-
-
-TJ, TR, QJ, QR, TJSP, Set_point, Controlled_var, MA, MB, MC, MD =  loop(signals.constant_signal)
-TJ1, TR1, QJ1, QR1, TJSP1, Set_point1, Controlled_var1, MA1, MB1, MC1, MD1 =  loop(signals.f_signal)
+TR =  PID_Loop.loop(signals.constant_signal)
+TR1 =  PID_Loop.loop(signals.f_signal)
 
 # Saving reactor temperature data
 
-with open("TR.txt", "wb") as fp:   
+with open("data/TR.txt", "wb") as fp:   
     pickle.dump(TR, fp)
 
-with open("TR1.txt", "wb") as fp:   
+with open("data/TR1.txt", "wb") as fp:   
     pickle.dump(TR1, fp)
 
 def plotter(name, times, plot_vals1, plot_vals2, label1, label2, ylab, xlab = 'time', colors = ['#1f77b4', '#ff7f0e']):
