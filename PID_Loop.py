@@ -2,7 +2,6 @@ import numpy as np
 import BatchReactor as Reactor
 import Simple_PID
 
-
 def loop(signal_function, noise = None, mmax = 299, interval = 0.5):
     
     TR = []

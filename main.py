@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import signals
 import PID_Loop
 
-
 TR =  PID_Loop.loop(signals.constant_signal)
 TR1 =  PID_Loop.loop(signals.f_signal)
 

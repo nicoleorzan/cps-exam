@@ -3,8 +3,7 @@ import pickle
 import mtl
 import signals
 
-# UPLOAD DATA
-
+# ============== DATA ==============
 
 with open("data/TR.txt", "rb") as fp:  
     TR = pickle.load(fp)
@@ -21,7 +20,6 @@ times = np.arange(1,mmax,interval)
 
 # ==================================   REQUIREMENT 1   =========================================
 # ==============  Check if signal is contained into defined limits: CONSTANT SIGNAL ============ 
-
 
 print(" 1) Requirement: G( Tr(t) > 20 & Tr(t) < 160 )")
 
@@ -43,7 +41,6 @@ print("\n")
 
 # ==================================   REQUIREMENT 2   ========================================
 # 2) ==============  Check if signal oscillations are contained: CONSTANT SIGNAL ==============  
-
 
 print(" 2) Requirement: Eventually from a time between 0 and 100, the distance between the output\
  and the real signal becomes smaller than 0.5 \nF[1,100] (G(|Tr(t) - constant_signal| < 0.5))")
@@ -77,7 +74,6 @@ print("\n")
 # ===================================   REQUIREMENT 3   ======================================
 # 3) ======================== Computing step function: VARYING SIGNAL ======================== 
 
-
 c = 1
 tau = 5
 
@@ -101,8 +97,6 @@ def step(tr, t, tau):
         return tr[t+tau] - tr[t]
 
 steps = [(t, step(TR1, i, tau)) if (i < len(TR1)-tau) else (t, 0)  for i,t in enumerate(times)]
-#out_bool = [(s[0], 1) if (s[1]>0) else (s[0], 0) for idx, s in enumerate(out)]
-#steps_bool = [(t, 1) if (elem[1] >= 1) else (t, 0) for t, elem in zip(times, steps)]
 
 data = {
     'out': out,
