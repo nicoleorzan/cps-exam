@@ -7,7 +7,6 @@ import signals
 import random
 import math
 
-
 debug = False
 
 mmax = 299
@@ -134,7 +133,6 @@ def test(epsilon, file):
 #train(Q_filename='data/Q.txt')
 
 TR = test(epsilon = 1, file ='data/Q.txt')
-
 
 plt.figure(figsize=(10, 7))
 plt.plot(times, TR, label = "Tr")
