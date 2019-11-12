@@ -7,3 +7,7 @@ f_signal = interp1d(points, signal)
 points1 = [0, 20, 300]
 signal1 = [25, 95, 95]
 constant_signal = interp1d(points1, signal1)
+
+points1 = [0, 20, 300]
+signal1 = [95, 95, 95]
+c_signal = interp1d(points1, signal1)
