@@ -3,7 +3,7 @@ import random
 
 class ReinforcementLearning():
 
-    def __init__(self, n_actions=3):
+    def __init__(self, n_actions=3, alpha=0.4, gamma=0.9999999, learning_episodes = 6000):
         #tjsp va da 20 a 120
         #tr va da 20 a 140?
         self.Tjsp_values = [20, 25, 26, 30, 35, 40, 45, 50, 52, 57, 60, 65, 70, 72, 80, 90, 94, 96, 100, 120] # [20, 30, 40, 50, 60, 90, 96, 100, 120]
@@ -12,10 +12,24 @@ class ReinforcementLearning():
         self.n_tr = len(self.Tr_values)
         self.n_actions = n_actions
         self.Q = np.random.rand(self.n_tjsp,self.n_tr)
+        self.alpha = alpha
+        self.gamma = gamma
+        self.learning_episodes = learning_episodes
 
     def state(self, Tjsp, Tr):
         self.s_tjsp = Tjsp
         self.s_tr = Tr
+
+    def update_state(self, Tjsp, a, it):
+        if (a == 2 and it == self.learning_episodes-1):
+            Tjsp1 = Tjsp + a
+        else:
+            Tjsp1 = Tjsp + a - 1
+        return Tjsp1
+
+    def fill_Q(self,Tjsp_slice, Tr_slice, reward, Tjsp1_slice, Tr1_slice):
+        self.Q[Tjsp_slice, Tr_slice] = self.Q[Tjsp_slice, Tr_slice] + self.alpha*(reward + \
+            self.gamma*self.Q[Tjsp1_slice, Tr1_slice] - self.Q[Tjsp_slice, Tr_slice])
 
     def find_slice_TR(self, Tr):
         slice = 0
