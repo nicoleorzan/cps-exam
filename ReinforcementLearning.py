@@ -3,10 +3,11 @@ import random
 
 class ReinforcementLearning():
 
-    def __init__(self, n_actions=3, alpha=0.4, gamma=0.9999999, learning_episodes = 6000):
-        self.Tjsp_values = [20, 25, 26, 30, 35, 40, 45, 50, 52, 57, 60, 65, 70, 72, 80, 90, 94, 96, 100, 120] # [20, 30, 40, 50, 60, 90, 96, 100, 120]
+    def __init__(self, Tjsp_values, Tr_values, n_actions=3, alpha=0.4, gamma=0.9999999, learning_episodes = 6000):
+
+        self.Tjsp_values = Tjsp_values
+        self.Tr_values = Tr_values,
         self.n_tjsp = len(self.Tjsp_values)
-        self.Tr_values = [20, 30, 90, 100, 140] #[20, 30, 50, 60, 90, 100, 120, 140]
         self.n_tr = len(self.Tr_values)
         self.n_actions = n_actions
         self.Q = np.random.rand(self.n_tjsp,self.n_tr)
@@ -68,9 +69,9 @@ class ReinforcementLearning():
 
         else:
             if (Tjsp_slice == 0):
-                arr = [-300000000000, self.Q[Tjsp_slice, Tr_slice], self.Q[Tjsp_slice+1, Tr_slice] ]
+                arr = [-np.inf, self.Q[Tjsp_slice, Tr_slice], self.Q[Tjsp_slice+1, Tr_slice] ]
             elif (Tjsp_slice == self.n_tjsp-2):
-                arr = [self.Q[Tjsp_slice-1, Tr_slice], self.Q[Tjsp_slice, Tr_slice], -300000000000]
+                arr = [self.Q[Tjsp_slice-1, Tr_slice], self.Q[Tjsp_slice, Tr_slice], -np.inf]
             else:
                 arr = [self.Q[Tjsp_slice-1, Tr_slice], self.Q[Tjsp_slice, Tr_slice], 
                         self.Q[Tjsp_slice+1, Tr_slice]]

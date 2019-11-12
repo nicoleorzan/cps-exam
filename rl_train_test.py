@@ -13,9 +13,12 @@ mmax = 299
 interval = 2
 times = np.arange(1, mmax, interval)
 
-def train(Q_filename):
+Tjsp_slices = [20, 25, 26, 30, 35, 40, 45, 50, 52, 57, 60, 65, 70, 72, 80, 90, 94, 96, 100, 120] 
+Tr_slices = [20, 30, 90, 100, 140]
 
-    RF = RL.ReinforcementLearning()
+def train(Q_filename, Tjsp_slices, Tr_slices):
+
+    RF = RL.ReinforcementLearning(Tjsp_slices, Tr_slices)
     it = 0
     while (it < RF.learning_episodes):
 
@@ -89,10 +92,10 @@ def train(Q_filename):
 
 
 
-def test(epsilon, file):
+def test(epsilon, file, Tjsp_slices, Tr_slices):
 
     TR = []
-    RF = RL.ReinforcementLearning()
+    RF = RL.ReinforcementLearning(Tjsp_slices, Tr_slices)
     RF.Q = np.loadtxt(file)
 
     R = Reactor.Reactor(20, noise = None)
@@ -130,9 +133,9 @@ def test(epsilon, file):
 
 
 
-#train(Q_filename='data/Q.txt')
+#train(Q_filename='data/Q.txt', Tjsp_slices=Tjsp_slices, Tr_slices=Tr_slices)
 
-TR = test(epsilon = 1, file ='data/Q.txt')
+TR = test(epsilon = 1, file ='data/Q.txt', Tjsp_slices=Tjsp_slices, Tr_slices=Tr_slices)
 
 plt.figure(figsize=(10, 7))
 plt.plot(times, TR, label = "Tr")
