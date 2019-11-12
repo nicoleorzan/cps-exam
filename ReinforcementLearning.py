@@ -27,7 +27,7 @@ class ReinforcementLearning():
             Tjsp1 = Tjsp + a - 1
         return Tjsp1
 
-    def fill_Q(self,Tjsp_slice, Tr_slice, reward, Tjsp1_slice, Tr1_slice):
+    def fill_Q(self, Tjsp_slice, Tr_slice, reward, Tjsp1_slice, Tr1_slice):
         self.Q[Tjsp_slice, Tr_slice] = self.Q[Tjsp_slice, Tr_slice] + self.alpha*(reward + \
             self.gamma*self.Q[Tjsp1_slice, Tr1_slice] - self.Q[Tjsp_slice, Tr_slice])
 

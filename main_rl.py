@@ -83,8 +83,9 @@ while (it < RF.learning_episodes):
         assert( math.isnan(RF.Q[Tjsp1_slice, Tr1_slice]) == False)
 
         if (it != RF.learning_episodes-1):
-            RF.Q[Tjsp_slice, Tr_slice] = RF.Q[Tjsp_slice, Tr_slice] + alpha*(reward + \
-                            gamma*RF.Q[Tjsp1_slice, Tr1_slice] - RF.Q[Tjsp_slice, Tr_slice])           
+            RF.fill_Q(Tjsp_slice, Tr_slice, reward, Tjsp1_slice, Tr1_slice)
+            #RF.Q[Tjsp_slice, Tr_slice] = RF.Q[Tjsp_slice, Tr_slice] + alpha*(reward + \
+            #                gamma*RF.Q[Tjsp1_slice, Tr1_slice] - RF.Q[Tjsp_slice, Tr_slice])           
 
         if (Tr1 >= 170):
             break
@@ -100,7 +101,7 @@ while (it < RF.learning_episodes):
 
 RF.printmat()
 
-np.savetxt('data/Q.txt', RF.Q, fmt='%d')
+#np.savetxt('data/Q.txt', RF.Q, fmt='%d')
 #Q = np.loadtxt('data/Q.txt', dtype=double)
 
 plt.figure(figsize=(10, 7))
