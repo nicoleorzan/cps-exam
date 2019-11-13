@@ -8,16 +8,16 @@ mmax = 299
 interval = 0.5
 times = np.arange(1,mmax,interval)
 
-TR =  PID_Loop.loop(signals.constant_signal, mmax = mmax, interval = interval)
-TR1 =  PID_Loop.loop(signals.f_signal, mmax = mmax, interval = interval)
+TR, MA, MB, MC, MD =  PID_Loop.loop(signals.f_signal, mmax = mmax, interval = interval)
+#TR1 =  PID_Loop.loop(signals.f_signal, mmax = mmax, interval = interval)
 
 # Saving reactor temperature data
 
-with open("data/TR.txt", "wb") as fp:   
+"""with open("data/TR.txt", "wb") as fp:   
     pickle.dump(TR, fp)
 
 with open("data/TR1.txt", "wb") as fp:   
-    pickle.dump(TR1, fp)
+    pickle.dump(TR1, fp)"""
 
 def plotter(name, times, plot_vals1, plot_vals2, label1, label2, ylab, xlab = 'time', colors = ['#1f77b4', '#ff7f0e']):
     plt.figure(figsize=(10, 7))
@@ -41,9 +41,9 @@ plotter("reactor_temperature", times, TR1, \
         signals.f_signal(times), "Reactor temperature", \
         "Set Point", "Temperature", xlab = 'time')
 
-plotter("MA_MB_moles1", times, MA1, MB1, \
+plotter("MA_MB_moles1", times, MA, MB, \
         "MA", "MB", ylab = "kmol", xlab = 'time')
 
-plotter("MC_MD_moles1", times, MC1, MD1, \
+plotter("MC_MD_moles1", times, MC, MD, \
         "MC", "MD", ylab = "kmol", xlab = 'time', colors = ['green', 'orange'])
 """
