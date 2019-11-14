@@ -5,10 +5,10 @@ import Simple_PID
 def loop(signal_function, noise = None, mmax = 299, interval = 0.5):
     
     TR = []
-    MA = []
+    """MA = []
     MB = []
     MC = []
-    MD = []
+    MD = []"""
 
     # variables initialization
     ek = 0
@@ -28,10 +28,10 @@ def loop(signal_function, noise = None, mmax = 299, interval = 0.5):
             Tj = Tj + np.random.normal(0,1)*np.sqrt(noise)
 
         M = R.get_M()
-        MA.append(M[0])
+        """MA.append(M[0])
         MB.append(M[1])
         MC.append(M[2])
-        MD.append(M[3])
+        MD.append(M[3])"""
         TR.append(Tr)
     
         ek = signal_function(k) - Tr
@@ -53,4 +53,4 @@ def loop(signal_function, noise = None, mmax = 299, interval = 0.5):
         ek_2 = ek_1
         ek_1 = ek
 
-    return TR, MA, MB, MC, MD
+    return TR #, MA, MB, MC, MD
