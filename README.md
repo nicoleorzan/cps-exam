@@ -1,4 +1,4 @@
-### Cyber-Physical Systems exam Repository
+### Temperature control for a Chemical Batch Reactor via PID controllers and RL
 
 
 In this repository you can find the analysis of the temperature variation for a Chemical Batch Reactor.
